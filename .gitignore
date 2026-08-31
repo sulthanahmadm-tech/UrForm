@@ -1,0 +1,18 @@
+# Python
+backend/venv/
+backend/__pycache__/
+*.pyc
+
+# Flutter/Dart
+flutter_application_1/.dart_tool/
+flutter_application_1/.packages
+flutter_application_1/build/
+flutter_application_1/.pub-cache/
+flutter_application_1/.pub/
+
+# VS Code
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
