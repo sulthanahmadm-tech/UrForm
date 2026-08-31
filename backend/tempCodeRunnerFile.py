@@ -12,7 +12,9 @@ def read_root():
 
 @app.post("/remove-background")
 async def remove_background(image: UploadFile = File(...)):
-    # Validasi dihapus agar lebih toleran terhadap berbagai ekstensi dari emulator
+    # Validasi format file
+    if not image.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="File must be an image.")
     
     try:
         # Membaca data gambar
