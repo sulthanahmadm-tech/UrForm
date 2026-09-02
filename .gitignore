@@ -21,3 +21,7 @@ Thumbs.db
 .env
 .env.*
 *.env
+
+# Dokumentasi Internal
+PRD.md
+
