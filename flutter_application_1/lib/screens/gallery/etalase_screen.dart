@@ -42,7 +42,7 @@ class _EtalaseScreenState extends State<EtalaseScreen> {
             return const Center(child: CircularProgressIndicator(color: Colors.amber));
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}', style: const TextStyle(color: Colors.red)));
+            return const Center(child: Text('Gagal memuat etalase.', style: TextStyle(color: Colors.red)));
           }
 
           final outfits = snapshot.data ?? [];

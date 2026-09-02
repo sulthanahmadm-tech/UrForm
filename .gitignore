@@ -16,3 +16,8 @@ flutter_application_1/.pub/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Environment secrets (JANGAN PERNAH COMMIT FILE INI)
+.env
+.env.*
+*.env

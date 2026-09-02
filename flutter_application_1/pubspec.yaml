@@ -37,7 +37,6 @@ dependencies:
   supabase_flutter: ^2.17.2
   flutter_riverpod: ^3.4.2
   http: ^1.6.0
-  flutter_dotenv: ^6.0.1
   image_picker: ^1.2.3
   uuid: ^4.6.0
   path_provider: ^2.1.6
@@ -95,6 +94,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-  
-  assets:
-    - .env

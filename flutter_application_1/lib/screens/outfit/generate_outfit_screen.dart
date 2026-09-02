@@ -110,7 +110,7 @@ class _GenerateOutfitScreenState extends ConsumerState<GenerateOutfitScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+          const SnackBar(content: Text('Gagal memuat pakaian. Silakan coba lagi.'), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -123,7 +123,10 @@ class _GenerateOutfitScreenState extends ConsumerState<GenerateOutfitScreen> {
     
     setState(() => _isLoading = true);
     try {
-      final user = _supabase.auth.currentUser!;
+      final user = _supabase.auth.currentUser;
+      if (user == null) {
+        throw Exception("Sesi telah berakhir. Silakan login kembali.");
+      }
       
       // Cari ID masing-masing kategori dari item yang sedang tampil
       String? topId, bottomId, shoesId, accessoryId;
@@ -154,7 +157,7 @@ class _GenerateOutfitScreenState extends ConsumerState<GenerateOutfitScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error menyimpan: $e'), backgroundColor: Colors.red),
+          const SnackBar(content: Text('Gagal menyimpan outfit. Silakan coba lagi.'), backgroundColor: Colors.red),
         );
       }
     } finally {

@@ -43,7 +43,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Terjadi kesalahan: $e'), backgroundColor: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Terjadi kesalahan. Silakan coba lagi nanti.'), backgroundColor: Colors.red));
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -57,7 +57,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       await ref.read(supabaseClientProvider).auth.signInWithOAuth(OAuthProvider.google);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Gagal login dengan Google: $e'), backgroundColor: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal login dengan Google. Silakan coba lagi.'), backgroundColor: Colors.red));
       }
     }
   }

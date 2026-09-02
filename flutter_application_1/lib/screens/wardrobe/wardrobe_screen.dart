@@ -59,7 +59,7 @@ class _WardrobeScreenState extends ConsumerState<WardrobeScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal membuka kamera/galeri: $e'), backgroundColor: Colors.red),
+          const SnackBar(content: Text('Gagal membuka kamera/galeri.'), backgroundColor: Colors.red),
         );
       }
       return;
@@ -105,7 +105,7 @@ class _WardrobeScreenState extends ConsumerState<WardrobeScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+          const SnackBar(content: Text('Gagal menambahkan pakaian. Silakan coba lagi.'), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -141,8 +141,15 @@ class _WardrobeScreenState extends ConsumerState<WardrobeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Gunakan StreamBuilder untuk update grid secara realtime
-    final stream = _supabase.from('clothing_items').stream(primaryKey: ['id']).order('created_at', ascending: false);
+    final user = _supabase.auth.currentUser;
+    if (user == null) {
+      return const Scaffold(
+        body: Center(child: Text('Harap login untuk melihat lemari Anda.')),
+      );
+    }
+
+    // Gunakan StreamBuilder untuk update grid secara realtime, difilter berdasarkan user_id
+    final stream = _supabase.from('clothing_items').stream(primaryKey: ['id']).eq('user_id', user.id).order('created_at', ascending: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -172,7 +179,7 @@ class _WardrobeScreenState extends ConsumerState<WardrobeScreen> {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return const Center(child: Text('Gagal memuat isi lemari.'));
                 }
                 
                 final items = snapshot.data ?? [];

@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'theme/app_theme.dart';
-import 'screens/main_screen.dart';
+import 'screens/auth/auth_gate.dart';
+
+// Kredensial di-inject saat build time via --dart-define
+// Contoh: flutter run --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_ANON_KEY=...
+const _supabaseUrl = String.fromEnvironment('SUPABASE_URL');
+const _supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Load environment variables
-  await dotenv.load(fileName: ".env");
+  // Validasi: pastikan kredensial sudah di-inject
+  if (_supabaseUrl.isEmpty || _supabaseAnonKey.isEmpty) {
+    throw Exception(
+      'SUPABASE_URL dan SUPABASE_ANON_KEY harus di-inject via --dart-define.\n'
+      'Contoh: flutter run --dart-define=SUPABASE_URL=https://xxx.supabase.co '
+      '--dart-define=SUPABASE_ANON_KEY=sb_xxx',
+    );
+  }
 
   // Initialize Supabase
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    publishableKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    url: _supabaseUrl,
+    publishableKey: _supabaseAnonKey,
   );
 
   runApp(const ProviderScope(child: MyApp()));
@@ -26,9 +36,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Outfit App',
+      title: 'UrForm',
       theme: AppTheme.darkTheme,
-      home: const MainScreen(),
+      home: const AuthGate(),
       debugShowCheckedModeBanner: false,
     );
   }
